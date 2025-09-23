@@ -1,0 +1,70 @@
+@using System.Linq
+@model IEnumerable<Grade>
+
+@{
+    ViewData["Title"] = "Grades";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Grades</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Grade
+        </a>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Score</th>
+                        <th>Grade Letter</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model ?? Enumerable.Empty<Grade>()) {
+                        <tr>
+                            <td>@(item.Student?.Name ?? "—")</td>
+                            <td>@(item.Course?.Title ?? "—")</td>
+                            <td>@Html.DisplayFor(modelItem => item.Score)%</td>
+                            <td>
+                                @{
+                                    var badgeClass =
+                                        (item.GradeLetter?.StartsWith("A") == true) ? "bg-success" :
+                                        (item.GradeLetter?.StartsWith("B") == true) ? "bg-info" :
+                                        (item.GradeLetter?.StartsWith("C") == true) ? "bg-warning" :
+                                        (item.GradeLetter?.StartsWith("D") == true) ? "bg-warning" :
+                                        "bg-danger";
+                                }
+                                <span class="badge @badgeClass">
+                                    @(item.GradeLetter ?? "—")
+                                </span>
+                            </td>
+                            <td>@(item.GradeDate != null ? item.GradeDate.ToString() : "—")</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

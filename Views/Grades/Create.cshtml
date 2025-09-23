@@ -1,0 +1,62 @@
+@model GradeALMS.Models.Grade
+
+@{
+    ViewData["Title"] = "Create Grade";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Create Grade</h1>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="StudentId" class="form-label"></label>
+                        <select asp-for="StudentId" class="form-select" asp-items="@(ViewData["StudentId"] as SelectList)">
+                            <option value="">-- Select Student --</option>
+                        </select>
+                        <span asp-validation-for="StudentId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="CourseId" class="form-label"></label>
+                        <select asp-for="CourseId" class="form-select" asp-items="@(ViewData["CourseId"] as SelectList)">
+                            <option value="">-- Select Course --</option>
+                        </select>
+                        <span asp-validation-for="CourseId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Score" class="form-label"></label>
+                        <input asp-for="Score" class="form-control" type="number" min="0" max="100" step="0.01"/>
+                        <span asp-validation-for="Score" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="GradeDate" class="form-label"></label>
+                        <input asp-for="GradeDate" class="form-control" type="date"/>
+                        <span asp-validation-for="GradeDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Create
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

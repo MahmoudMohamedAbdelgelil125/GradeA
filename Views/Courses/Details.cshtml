@@ -1,0 +1,79 @@
+@model GradeALMS.Models.Course
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Course Details</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Title:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Title)</dd>
+
+                    <dt class="col-sm-4">Description:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
+
+                    <dt class="col-sm-4">Credits:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Credits)</dd>
+
+                    <dt class="col-sm-4">Instructor:</dt>
+                    <dd class="col-sm-8">@Model.Instructor?.Name</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Enrolled Students</h6>
+            </div>
+            <div class="card-body">
+                @if (Model.StudentCourses.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Email</th>
+                                    <th>Enrollment Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var enrollment in Model.StudentCourses)
+                                {
+                                    <tr>
+                                        <td>@enrollment.Student?.Name</td>
+                                        <td>@enrollment.Student?.Email</td>
+                                        <td>@enrollment.EnrollmentDate.ToString("MMM dd, yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No students enrolled in this course.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

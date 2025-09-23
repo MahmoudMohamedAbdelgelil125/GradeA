@@ -1,0 +1,78 @@
+@model Instructor
+
+@{
+    ViewData["Title"] = "Instructor Details";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Instructor Details</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <div class="avatar-circle bg-info text-white mx-auto mb-3" 
+                     style="width: 80px; height: 80px; border-radius: 50%; 
+                            display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                    @Model.Name.Substring(0, 1).ToUpper()
+                </div>
+                <h4>@Html.DisplayFor(model => model.Name)</h4>
+                <p class="text-muted">@Html.DisplayFor(model => model.Email)</p>
+                <hr>
+                <dl class="row">
+                    <dt class="col-sm-6">Hire Date:</dt>
+                    <dd class="col-sm-6">@Html.DisplayFor(model => model.HireDate)</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Courses Taught</h6>
+            </div>
+            <div class="card-body">
+                @if (Model.Courses != null && Model.Courses.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Course Title</th>
+                                    <th>Credits</th>
+                                    <th>Enrolled Students</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var course in Model.Courses)
+                                {
+                                    <tr>
+                                        <td>@course.Title</td>
+                                        <td>@course.Credits</td>
+                                        <td>@(course.StudentCourses?.Count ?? 0)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No courses assigned.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
